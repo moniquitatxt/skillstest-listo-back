@@ -4,6 +4,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CompanyModule } from './company/company.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as dotenv from 'dotenv';
+import { EmployeeModule } from './company/employee/employee.module';
 dotenv.config();
 
 @Module({
@@ -14,6 +15,7 @@ dotenv.config();
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI),
     CompanyModule,
+    EmployeeModule,
   ],
 })
 export class AppModule {}

@@ -1,6 +1,7 @@
 import { Model } from 'mongoose';
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -31,25 +32,15 @@ export class CompanyService {
 
     return company;
   }
+
   async createCompany(createCompanyDto: CreateCompanyDto): Promise<Company> {
-    const allowedFields = [
-      'name',
-      'fiscal_id',
-      'address',
-      'phone',
-      'website',
-      'email',
-      'name_representative',
-      'phone_representative',
-      'address_representative',
-      'email_representative',
-    ];
-    const extraFields = Object.keys(createCompanyDto).filter(
-      (field) => !allowedFields.includes(field),
-    );
-    if (extraFields.length > 0) {
-      throw new BadRequestException(
-        'Invalid fields: ' + extraFields.join(', '),
+    const { email, fiscal_id } = createCompanyDto;
+    const existingCompany = await this.companyModel
+      .findOne({ $or: [{ email }, { fiscal_id }] })
+      .exec();
+    if (existingCompany) {
+      throw new ConflictException(
+        'Correo electrónico o identificador fiscal ya está en uso',
       );
     }
 
@@ -80,5 +71,20 @@ export class CompanyService {
       throw new NotFoundException('Company not found');
     }
     return deletedCompany;
+  }
+
+  async addEmployeeToCompany(
+    companyId: string,
+    employeeId: string,
+  ): Promise<Company> {
+    const company = await this.companyModel.findById(companyId).exec();
+    if (!company) {
+      throw new NotFoundException('Compañía no encontrada');
+    }
+
+    company.employees.push(employeeId);
+    await company.save();
+
+    return company;
   }
 }

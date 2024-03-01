@@ -11,5 +11,6 @@ import { CompanyResolver } from 'src/graphql/company.resolver';
   ],
   controllers: [CompanyController],
   providers: [CompanyResolver, CompanyService],
+  exports: [CompanyService],
 })
 export class CompanyModule {}

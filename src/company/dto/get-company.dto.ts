@@ -1,11 +1,4 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import {
-  IsNotEmpty,
-  IsString,
-  IsOptional,
-  IsEmail,
-  IsArray,
-} from 'class-validator';
 import { CompanyType } from '../company.schema';
 import { CreateEmployeeDto } from '../employee/dto/create-employee.dto';
 import { Type } from 'class-transformer';
@@ -15,64 +8,44 @@ registerEnumType(CompanyType, {
 });
 
 @ObjectType()
-export class CreateCompanyDto {
+export class CompanyDto {
   @Field()
-  @IsNotEmpty()
-  @IsString()
+  _id: string;
+
+  @Field()
   name: string;
 
   @Field()
-  @IsNotEmpty()
-  @IsString()
   fiscal_id: string;
 
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
+  @Field()
   address?: string;
 
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
+  @Field()
   phone?: string;
 
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
+  @Field()
   website?: string;
 
   @Field()
-  @IsNotEmpty()
-  @IsEmail()
   email: string;
 
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
+  @Field()
   name_representative?: string;
 
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
+  @Field()
   phone_representative?: string;
 
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
+  @Field()
   address_representative?: string;
 
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsEmail()
+  @Field()
   email_representative?: string;
 
   @Field(() => CompanyType)
-  @IsOptional()
   type: CompanyType;
 
   @Field(() => [CreateEmployeeDto], { nullable: true })
-  @IsOptional()
-  @IsArray()
   @Type(() => CreateEmployeeDto)
   employees?: CreateEmployeeDto[];
 }

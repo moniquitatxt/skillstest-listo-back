@@ -1,16 +1,17 @@
 import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+
 import { CompanyService } from 'src/company/company.service';
 import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
+import { CompanyDto } from 'src/company/dto/get-company.dto';
 import { UpdateCompanyDto } from 'src/company/dto/update-company.dto';
-import { Company } from 'src/company/company.schema';
 import { CreateCompanyInput } from 'src/company/inputs/create-company.input';
 import { UpdateCompanyInput } from 'src/company/inputs/update-company.input';
 
-@Resolver(() => Company)
+@Resolver()
 export class CompanyResolver {
   constructor(private readonly companyService: CompanyService) {}
 
-  @Query(() => [CreateCompanyDto])
+  @Query(() => [CompanyDto])
   async companies() {
     return this.companyService.getAllCompanies();
   }

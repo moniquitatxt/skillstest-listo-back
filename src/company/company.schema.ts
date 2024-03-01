@@ -1,10 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type CompanyDocument = Document<Company>;
+export enum CompanyType {
+  technology = 'Tecnología',
+  food = 'Alimentos',
+  health = 'Salud',
+  transportation = 'Transporte',
+  services = 'Servicios',
+}
 
 @Schema()
-export class Company {
+export class Company extends Document {
   @Prop({ required: true })
   name: string;
 
@@ -34,5 +40,11 @@ export class Company {
 
   @Prop()
   email_representative: string;
+
+  @Prop({ required: true, enum: CompanyType })
+  type: CompanyType;
+
+  @Prop({ type: [{ type: 'ObjectId', ref: 'Employee' }] })
+  employees: string[];
 }
 export const CompanySchema = SchemaFactory.createForClass(Company);

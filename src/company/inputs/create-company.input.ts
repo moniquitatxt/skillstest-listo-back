@@ -1,5 +1,19 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsString, IsOptional, IsEmail } from 'class-validator';
+import { Field, InputType, registerEnumType } from '@nestjs/graphql';
+import {
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  IsEmail,
+  IsArray,
+} from 'class-validator';
+import { CompanyType } from '../company.schema';
+import { CreateEmployeeDto } from '../employee/dto/create-employee.dto';
+import { Type } from 'class-transformer';
+import { CreateEmployeeInput } from '../employee/inputs/create-employee.input';
+
+registerEnumType(CompanyType, {
+  name: 'CompanyType',
+});
 
 @InputType()
 export class CreateCompanyInput {
@@ -52,4 +66,15 @@ export class CreateCompanyInput {
   @IsOptional()
   @IsEmail()
   email_representative?: string;
+
+  @Field(() => CompanyType)
+  @IsOptional()
+  type: CompanyType;
+
+  //TODO
+  @Field(() => [CreateEmployeeInput], { nullable: true })
+  @IsOptional()
+  @IsArray()
+  @Type(() => CreateEmployeeDto)
+  employees?: CreateEmployeeDto[];
 }
