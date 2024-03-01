@@ -9,6 +9,7 @@ import {
 import { CompanyType } from '../company.schema';
 import { CreateEmployeeDto } from '../employee/dto/create-employee.dto';
 import { Type } from 'class-transformer';
+import { EmployeeDto } from '../employee/dto/employee.dto';
 
 registerEnumType(CompanyType, {
   name: 'CompanyType',
@@ -70,7 +71,7 @@ export class CreateCompanyDto {
   @IsOptional()
   type: CompanyType;
 
-  @Field(() => [CreateEmployeeDto], { nullable: true })
+  @Field(() => [EmployeeDto], { nullable: true })
   @IsOptional()
   @IsArray()
   @Type(() => CreateEmployeeDto)

@@ -18,7 +18,7 @@ export class UpdateEmployeeDto {
   @IsString()
   phone: string;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   @IsOptional()
   age: number;
 }

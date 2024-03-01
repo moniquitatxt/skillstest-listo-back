@@ -9,11 +9,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Company } from './company.schema';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { Employee } from './employee/employee.schema';
 
 @Injectable()
 export class CompanyService {
   constructor(
     @InjectModel('Company') private readonly companyModel: Model<Company>,
+    @InjectModel('Employee') private readonly employeeModel: Model<Employee>,
   ) {}
 
   async getAllCompanies(): Promise<Company[]> {
@@ -70,6 +72,12 @@ export class CompanyService {
     if (!deletedCompany) {
       throw new NotFoundException('Company not found');
     }
+    const employeeIdsToDelete = deletedCompany.employees;
+
+    await this.employeeModel
+      .deleteMany({ _id: { $in: employeeIdsToDelete } })
+      .exec();
+
     return deletedCompany;
   }
 

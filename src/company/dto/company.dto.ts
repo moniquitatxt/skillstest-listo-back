@@ -1,7 +1,7 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { CompanyType } from '../company.schema';
-import { CreateEmployeeDto } from '../employee/dto/create-employee.dto';
 import { Type } from 'class-transformer';
+import { EmployeeDto } from '../employee/dto/employee.dto';
 
 registerEnumType(CompanyType, {
   name: 'CompanyType',
@@ -18,34 +18,34 @@ export class CompanyDto {
   @Field()
   fiscal_id: string;
 
-  @Field()
+  @Field({ nullable: true })
   address?: string;
 
-  @Field()
+  @Field({ nullable: true })
   phone?: string;
 
-  @Field()
+  @Field({ nullable: true })
   website?: string;
 
   @Field()
   email: string;
 
-  @Field()
+  @Field({ nullable: true })
   name_representative?: string;
 
-  @Field()
+  @Field({ nullable: true })
   phone_representative?: string;
 
-  @Field()
+  @Field({ nullable: true })
   address_representative?: string;
 
-  @Field()
+  @Field({ nullable: true })
   email_representative?: string;
 
   @Field(() => CompanyType)
   type: CompanyType;
 
-  @Field(() => [CreateEmployeeDto], { nullable: true })
-  @Type(() => CreateEmployeeDto)
-  employees?: CreateEmployeeDto[];
+  @Field(() => [EmployeeDto], { nullable: true })
+  @Type(() => EmployeeDto)
+  employees?: EmployeeDto[];
 }
