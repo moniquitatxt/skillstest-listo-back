@@ -11,6 +11,9 @@ import { CompanyResolver } from 'src/graphql/company.resolver';
   ],
   controllers: [CompanyController],
   providers: [CompanyResolver, CompanyService],
-  exports: [CompanyService],
+  exports: [
+    CompanyService,
+    MongooseModule.forFeature([{ name: 'Company', schema: CompanySchema }]),
+  ],
 })
 export class CompanyModule {}

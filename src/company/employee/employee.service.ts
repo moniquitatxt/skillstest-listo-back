@@ -10,11 +10,13 @@ import { CompanyService } from '../company.service';
 import { Employee } from './employee.schema';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { CreateEmployeeInput } from './inputs/create-employee.input';
+import { Company } from '../company.schema';
 
 @Injectable()
 export class EmployeeService {
   constructor(
     @InjectModel('Employee') private readonly employeeModel: Model<Employee>,
+    @InjectModel('Company') private readonly companyModel: Model<Company>,
     private readonly companyService: CompanyService,
   ) {}
 
@@ -82,6 +84,10 @@ export class EmployeeService {
     if (!deletedEmployee) {
       throw new NotFoundException('Employee not found');
     }
+    await this.companyModel
+      .updateMany({ employees: id }, { $pull: { employees: id } })
+      .exec();
+
     return deletedEmployee;
   }
 }
