@@ -20,7 +20,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-##Ejemplos de query para graphql
+## Ejemplos de query para graphql
 
   ### Crear Empresas
 
