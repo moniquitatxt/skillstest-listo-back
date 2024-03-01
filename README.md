@@ -19,6 +19,7 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+Ver en localhost:3000/graphql
 
 ## Ejemplos de query para graphql
 
