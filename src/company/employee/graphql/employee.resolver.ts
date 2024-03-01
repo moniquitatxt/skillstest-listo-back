@@ -19,6 +19,11 @@ export class EmployeeResolver {
     return this.employeeService.getOneEmployee(_id);
   }
 
+  @Query(() => [EmployeeDto])
+  async employeesByCompany(@Args('companyId') companyId: string) {
+    return this.employeeService.getEmployeesByCompany(companyId);
+  }
+
   @Mutation(() => EmployeeDto)
   async createEmployee(@Args('input') input: CreateEmployeeInput) {
     return this.employeeService.createEmployee(input);

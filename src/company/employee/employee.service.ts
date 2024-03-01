@@ -36,6 +36,26 @@ export class EmployeeService {
 
     return employee;
   }
+  async getEmployeesByCompany(companyId: string): Promise<Employee[]> {
+    if (!companyId.match(/^[0-9a-fA-F]{24}$/)) {
+      throw new BadRequestException('Invalid company ID');
+    }
+    const company = await this.companyModel.findById(companyId).exec();
+    if (!company) {
+      throw new NotFoundException('Company not found');
+    }
+    const employeeIds = company.employees.map((employeeId) =>
+      employeeId.toString(),
+    );
+
+    const employees = await this.employeeModel
+      .find({ _id: { $in: employeeIds } })
+      .exec();
+    if (!employees) {
+      throw new NotFoundException('Employees not found for this company');
+    }
+    return employees;
+  }
 
   async createEmployee(
     createEmployeeDto: CreateEmployeeInput,
@@ -78,6 +98,9 @@ export class EmployeeService {
   }
 
   async deleteEmployee(id: string): Promise<Employee | null> {
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      throw new BadRequestException('Invalid employee ID');
+    }
     const deletedEmployee = await this.employeeModel
       .findByIdAndDelete(id)
       .exec();

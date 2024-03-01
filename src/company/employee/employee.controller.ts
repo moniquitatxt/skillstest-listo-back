@@ -59,8 +59,21 @@ export class EmployeeController {
     }
   }
 
+  @Get(':companyId')
+  async getEmployeesByCompany(@Param('companyId') companyId: string) {
+    try {
+      return this.employeeService.getEmployeesByCompany(companyId);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   @Delete(':id')
   async deleteEmployee(@Param('id') id: string): Promise<Employee | null> {
-    return this.employeeService.deleteEmployee(id);
+    try {
+      return this.employeeService.deleteEmployee(id);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 }

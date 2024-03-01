@@ -68,6 +68,10 @@ export class CompanyService {
   }
 
   async deleteCompany(id: string): Promise<Company | null> {
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      throw new BadRequestException('Invalid company ID');
+    }
+
     const deletedCompany = await this.companyModel.findByIdAndDelete(id).exec();
     if (!deletedCompany) {
       throw new NotFoundException('Company not found');
