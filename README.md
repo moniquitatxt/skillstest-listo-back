@@ -199,6 +199,18 @@ mutation {
   }
 }
 ```
+### Obtener los empleados de una empresa
+```graphql
+query {
+  employeesByCompany(companyId: "65e1f85062a717925dd1841d") {
+    _id
+    name
+    email
+    phone
+    age
+  }
+}
+```
 
 ### Eliminar Empleado
 
@@ -214,3 +226,4 @@ mutation {
   }
 }
 ```
+
