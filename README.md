@@ -1,30 +1,5 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Prueba para Backend Listo app cl
 
 ## Installation
 
@@ -45,29 +20,197 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+##Ejemplos de query para graphql
 
-```bash
-# unit tests
-$ npm run test
+  ### Crear Empresas
 
-# e2e tests
-$ npm run test:e2e
+Para crear empresas de diferentes tipos:
 
-# test coverage
-$ npm run test:cov
+1. **Pizza Palace**
+    ```graphql
+    mutation {
+      createCompany(input: {
+        name: "Pizza Palace",
+        fiscal_id: "1234567890",
+        address: "123 Main Street",
+        phone: "+1234567890",
+        website: "www.pizzapalace.com",
+        email: "info@pizzapalace.com",
+        name_representative: "John Doe",
+        address_representative: "456 Park Avenue",
+        email_representative: "john@pizzapalace.com",
+        type: food
+      }) {
+        _id
+        name
+        email
+      }
+    }
+    ```
+
+2. **Green Garden**
+    ```graphql
+    mutation {
+      createCompany(input: {
+        name: "Green Garden",
+        fiscal_id: "0987654321",
+        address: "456 Elm Street",
+        phone: "+0987654321",
+        website: "www.greengarden.com",
+        email: "info@greengarden.com",
+        name_representative: "Jane Smith",
+        address_representative: "789 Oak Avenue",
+        email_representative: "jane@greengarden.com",
+        type: food
+      }) {
+        _id
+        name
+        email
+      }
+    }
+    ```
+
+3. **Speedy Delivery**
+    ```graphql
+    mutation {
+      createCompany(input: {
+        name: "Speedy Delivery",
+        fiscal_id: "9876543210",
+        address: "789 Pine Street",
+        phone: "+9876543210",
+        website: "www.speedydelivery.com",
+        email: "info@speedydelivery.com",
+        name_representative: "Mike Johnson",
+        address_representative: "123 Maple Avenue",
+        email_representative: "mike@speedydelivery.com",
+        type: transportation
+      })  {
+        _id
+        name
+        email
+      }
+    }
+    ```
+
+### Consultar Empresas
+
+Para obtener todas las empresas y sus empleados:
+
+```graphql
+query {
+  companies {
+    _id
+    address
+    phone
+    website
+    name_representative
+    phone_representative
+    address_representative
+    email_representative
+    employees {
+      _id
+    }
+  }
+}
 ```
 
-## Support
+### Actualizar Empresa
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Para actualizar una empresa, proporciona su ID y los campos que deseas actualizar:
 
-## Stay in touch
+```graphql
+mutation {
+  updateCompany(
+    _id: "",
+    input: {
+      email: "newemail@example.com",
+      phone_representative: "123456789"
+    }
+  ) {
+    name
+    email
+    phone_representative
+  }
+}
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Eliminar Empresa
 
-## License
+Para eliminar una empresa y sus empleados asociados:
 
-Nest is [MIT licensed](LICENSE).
+```graphql
+mutation {
+  deleteCompany(_id: "") {
+    name
+    fiscal_id
+    address
+    phone
+    website
+    email
+    name_representative
+    phone_representative
+    address_representative
+    email_representative
+    employees {
+      _id
+    }
+  }
+}
+```
+
+### Crear Empleado
+
+Para crear un empleado y agregarlo a una empresa específica, proporciona el ID de la empresa:
+
+```graphql
+mutation {
+  createEmployee(input: {
+    name: "Juan Perez",
+    email: "juanperez@example.com",
+    phone: "+1234567890",
+    age: 30,
+    companyId: "65e1f8a162a717925dd18420"
+  }) {
+    _id
+    name
+    email
+    phone
+    age
+  }
+}
+```
+
+### Actualizar Empleado
+
+Para actualizar un empleado, proporciona su ID y los campos que deseas actualizar:
+
+```graphql
+mutation {
+  updateEmployee(
+    _id: "65e1fc83e761376179d2ef9e",
+    input: {
+      name: "Mario"
+    }
+  ) {
+    name
+    email
+    phone
+    age
+  }
+}
+```
+
+### Eliminar Empleado
+
+Para eliminar un empleado específico:
+
+```graphql
+mutation {
+  deleteEmployee(_id: "") {
+    name
+    email
+    phone
+    age
+  }
+}
+```
